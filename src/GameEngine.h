@@ -7,6 +7,8 @@
 
 #include "GameState.h"
 
+#define GLEW_STATIC //needed to static link GLEW
+
 class GameEngine
 {
 public:
@@ -25,4 +27,9 @@ private:
 	std::unique_ptr<GameState> state;
 
 	SDL_Window* window;
+
+	SDL_GLContext context;
+
+	int resolution_x = 800;
+	int resolution_y = 600;
 };
