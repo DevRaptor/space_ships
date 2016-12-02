@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <chrono>
 
+#include "GameModule.h"
 #include "utility/Log.h"
 
 using namespace std::chrono_literals;
@@ -14,6 +15,7 @@ constexpr std::chrono::nanoseconds time_step(16ms);
 GameEngine::GameEngine()
 	: lag(0ns), time_start(Clock::now())
 {
+	Logger::InitLog();
 	Logger::Log("===================================\n");
 	Logger::Log("============Space Ships============\n");
 	Logger::Log("===================================\n");
@@ -49,6 +51,8 @@ GameEngine::~GameEngine()
 
 	Logger::Log("===================================\n");
 	Logger::Log("Close game\n");
+
+	Logger::CloseLog();
 }
 
 void GameEngine::Update()
@@ -67,6 +71,11 @@ void GameEngine::Update()
 
 		state->Update(time_step);
 	}
+
+	GameModule::input.Update();
+	if (GameModule::input.GetKeyState(SDL_SCANCODE_ESCAPE))
+		exit = true;
+
 }
 
 void GameEngine::HandleEvents()
