@@ -1,8 +1,11 @@
 #pragma once
 
 #include <chrono>
+#include <memory>
 
 #include <SDL.h>
+
+#include "entity/Entity.h"
 
 class GameState
 {
@@ -14,5 +17,7 @@ public:
 
 private:
 
-	//game objects
+	std::shared_ptr<Entity> ship;
+	std::shared_ptr<Entity> meteors;
+	std::shared_ptr<Entity> bullets;
 };
