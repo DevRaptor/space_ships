@@ -53,3 +53,8 @@ Renderer::~Renderer()
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 }
+
+void Renderer::Render()
+{
+
+}

@@ -20,6 +20,8 @@ GameEngine::GameEngine()
 	Logger::Log("============Space Ships============\n");
 	Logger::Log("===================================\n");
 
+	GameModule::Init();
+
 	std::time_t actual_date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	Logger::Log("Start date: ", std::ctime(&actual_date), "\n");
 
@@ -36,7 +38,8 @@ GameEngine::GameEngine()
 
 	Logger::Log("Platform: ", SDL_GetPlatform(), "\n");
 
-	renderer = std::make_shared<Renderer>(resolution_x, resolution_y);
+	renderer = std::make_shared<Renderer>(GameModule::resources->GetIntParameter("resolution_x"),
+		GameModule::resources->GetIntParameter("resolution_y"));
 
 
 
@@ -76,6 +79,7 @@ void GameEngine::Update()
 	if (GameModule::input.GetKeyState(SDL_SCANCODE_ESCAPE))
 		exit = true;
 
+	renderer->Render();
 }
 
 void GameEngine::HandleEvents()

@@ -1,0 +1,3 @@
+name=value
+resolution_x=800
+resolution_y=600
