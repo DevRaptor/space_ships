@@ -1,5 +1,7 @@
 #include "GameEngine.h"
 
+#include <chrono>
+
 #include <GL/glew.h>
 
 #include <glm/glm.hpp>
@@ -7,11 +9,20 @@
 
 #include "utility\Log.h"
 
+using namespace std::chrono_literals;
+
+//fixed time step, 1 / 60 [s] = 16 ms
+constexpr std::chrono::nanoseconds time_step(16ms);
+
 GameEngine::GameEngine()
+	: lag(0ns), time_start(Clock::now())
 {
 	Logger::Log("===================================\n");
 	Logger::Log("============Space Ships============\n");
 	Logger::Log("===================================\n");
+
+	std::time_t actual_date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	Logger::Log("Start date: ", std::ctime(&actual_date), "\n");
 
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
@@ -63,6 +74,7 @@ GameEngine::GameEngine()
 	glClearColor(0, 0, 0, 0);
 	glViewport(0, 0, resolution_x, resolution_y);
 	glClear(GL_COLOR_BUFFER_BIT);
+	SDL_GL_SwapWindow(window);
 
 	state = std::make_unique<GameState>();
 
@@ -70,11 +82,30 @@ GameEngine::GameEngine()
 
 GameEngine::~GameEngine()
 {
+	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
 void GameEngine::Update()
+{
+	HandleEvents();
+
+	auto delta_time = Clock::now() - time_start;
+	time_start = Clock::now();
+
+	lag += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
+
+	//fixed time step update
+	while (lag >= time_step)
+	{
+		lag -= time_step;
+
+		state->Update(time_step);
+	}
+}
+
+void GameEngine::HandleEvents()
 {
 	SDL_Event event;
 
@@ -83,7 +114,5 @@ void GameEngine::Update()
 		if (event.type == SDL_QUIT)
 			exit = true;
 	}
-
 }
-
 

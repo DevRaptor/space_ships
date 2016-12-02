@@ -9,8 +9,12 @@
 
 #define GLEW_STATIC //needed to static link GLEW
 
+
+
 class GameEngine
 {
+	using Clock = std::chrono::high_resolution_clock;
+
 public:
 	GameEngine();
 	~GameEngine();
@@ -32,4 +36,11 @@ private:
 
 	int resolution_x = 800;
 	int resolution_y = 600;
+
+	std::chrono::nanoseconds lag;
+
+	std::chrono::steady_clock::time_point time_start;
+
+	void HandleEvents();
+
 };
