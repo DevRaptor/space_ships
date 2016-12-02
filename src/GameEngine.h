@@ -3,11 +3,10 @@
 #include <memory>
 
 #include <SDL.h>
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 
 #include "GameState.h"
-
-#define GLEW_STATIC //needed to static link GLEW
+#include "rendering/Renderer.h"
 
 
 
@@ -30,12 +29,10 @@ private:
 
 	std::unique_ptr<GameState> state;
 
-	SDL_Window* window;
-
-	SDL_GLContext context;
-
 	int resolution_x = 800;
 	int resolution_y = 600;
+
+	std::shared_ptr<Renderer> renderer;
 
 	std::chrono::nanoseconds lag;
 
