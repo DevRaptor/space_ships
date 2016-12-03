@@ -27,14 +27,14 @@ public:
 private:
 	bool exit = false;
 
-	std::unique_ptr<GameState> state;
+	std::shared_ptr<GameState> state;
 
 	int resolution_x = 800;
 	int resolution_y = 600;
 
 	std::shared_ptr<Renderer> renderer;
 
-	std::chrono::nanoseconds lag;
+	std::chrono::microseconds lag;
 
 	std::chrono::steady_clock::time_point time_start;
 

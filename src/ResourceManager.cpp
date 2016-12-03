@@ -37,6 +37,7 @@ void ResourceManager::LoadParameters()
 
 std::shared_ptr<Mesh> ResourceManager::LoadMesh(const std::string& name)
 {
+	Logger::Log("Load ", name, " mesh\n");
 	auto mesh = std::make_shared<Mesh>();
 	meshes[name] = mesh;
 

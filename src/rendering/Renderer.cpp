@@ -60,13 +60,13 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 	shader_program->UseProgram();
 
 	mvp_uniform = glGetUniformLocation(shader_program->GetProgram(), "mvp");
-
+	transform_uniform = glGetUniformLocation(shader_program->GetProgram(), "transform");
 	float ratio = static_cast<float>(resolution_x) / static_cast<float>(resolution_y);
 
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), ratio, 0.1f, 100.0f);
 
 	glm::mat4 view = glm::lookAt(
-		glm::vec3(4, 3, 3),
+		glm::vec3(0.01, 10, 0),
 		glm::vec3(0, 0, 0),
 		glm::vec3(0, 1, 0));
 
@@ -74,18 +74,12 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 
 	mvp = projection * view * model;
 
-
 	//Triangle
 	/*static const GLfloat vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
 		0.0f,  1.0f, 0.0f,
 	};*/
-
-	//box
-
-	mesh = GameModule::resources->GetMesh("cube");
-
 }
 
 Renderer::~Renderer()
@@ -94,15 +88,18 @@ Renderer::~Renderer()
 	SDL_DestroyWindow(window);
 }
 
-void Renderer::Render()
+void Renderer::Render(std::shared_ptr<GameState> game_state)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shader_program->UseProgram();
 
 	glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
-	
-	mesh->Draw();
+	if (game_state->ship)
+	{
+		glUniformMatrix4fv(transform_uniform, 1, GL_FALSE, glm::value_ptr(game_state->ship->transform_mat));
+		game_state->ship->Draw();
+	}
 
 	SDL_GL_SwapWindow(window);
 

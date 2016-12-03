@@ -10,10 +10,10 @@
 using namespace std::chrono_literals;
 
 //fixed time step, 1 / 60 [s] = 16 ms
-constexpr std::chrono::nanoseconds time_step(16ms);
+constexpr std::chrono::milliseconds time_step(16ms);
 
 GameEngine::GameEngine()
-	: lag(0ns), time_start(Clock::now())
+	: lag(0), time_start(Clock::now())
 {
 	Logger::InitLog();
 	Logger::Log("===================================\n");
@@ -43,7 +43,7 @@ GameEngine::GameEngine()
 
 
 
-	state = std::make_unique<GameState>();
+	state = std::make_shared<GameState>();
 
 }
 
@@ -65,7 +65,7 @@ void GameEngine::Update()
 	auto delta_time = Clock::now() - time_start;
 	time_start = Clock::now();
 
-	lag += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
+	lag += std::chrono::duration_cast<std::chrono::microseconds>(delta_time);
 
 	//fixed time step update
 	while (lag >= time_step)
@@ -79,7 +79,7 @@ void GameEngine::Update()
 	if (GameModule::input.GetKeyState(SDL_SCANCODE_ESCAPE))
 		exit = true;
 
-	renderer->Render();
+	renderer->Render(state);
 }
 
 void GameEngine::HandleEvents()

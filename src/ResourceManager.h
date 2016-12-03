@@ -25,6 +25,10 @@ public:
 private:
 	std::map<std::string, std::string> parameters;
 
+	/*
+	In games with multiple objects, should store std::weak_ptr<Mesh> to
+	delete unused meshes
+	*/
 	std::map<std::string, std::shared_ptr<Mesh>> meshes;
 
 	void LoadParameters();
