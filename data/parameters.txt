@@ -1,3 +1,5 @@
 name=value
-resolution_x=800
-resolution_y=600
+game_title=Space Ships
+resolution_x=1280
+resolution_y=720
+vsync=1

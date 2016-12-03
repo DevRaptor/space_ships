@@ -22,7 +22,7 @@ GameEngine::GameEngine()
 
 	GameModule::Init();
 
-	std::time_t actual_date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	std::time_t actual_date = std::time(nullptr);
 	Logger::Log("Start date: ", std::ctime(&actual_date), "\n");
 
 
