@@ -41,6 +41,8 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -74,15 +76,16 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 
 
 	//Triangle
-	static const GLfloat vertex_buffer_data[] = {
+	/*static const GLfloat vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
 		0.0f,  1.0f, 0.0f,
-	};
+	};*/
 
-	glGenBuffers(1, &vertex_buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
+	//box
+
+	mesh = GameModule::resources->GetMesh("cube");
+
 }
 
 Renderer::~Renderer()
@@ -93,19 +96,13 @@ Renderer::~Renderer()
 
 void Renderer::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shader_program->UseProgram();
 
 	glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glDisableVertexAttribArray(0);
+	
+	mesh->Draw();
 
 	SDL_GL_SwapWindow(window);
 

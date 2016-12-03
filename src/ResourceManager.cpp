@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "rendering/Mesh.h"
 #include "utility/Log.h"
 
 void ResourceManager::LoadParameters()
@@ -34,7 +35,15 @@ void ResourceManager::LoadParameters()
 	}
 }
 
-bool ResourceManager::GetBoolParameter(const std::string & name)
+std::shared_ptr<Mesh> ResourceManager::LoadMesh(const std::string& name)
+{
+	auto mesh = std::make_shared<Mesh>();
+	meshes[name] = mesh;
+
+	return mesh;
+}
+
+bool ResourceManager::GetBoolParameter(const std::string& name)
 {
 	auto it = parameters.find(name);
 
@@ -53,7 +62,7 @@ bool ResourceManager::GetBoolParameter(const std::string & name)
 	return false;
 }
 
-int ResourceManager::GetIntParameter(const std::string & name)
+int ResourceManager::GetIntParameter(const std::string& name)
 {
 	auto it = parameters.find(name);
 
@@ -65,7 +74,7 @@ int ResourceManager::GetIntParameter(const std::string & name)
 	return 0;
 }
 
-float ResourceManager::GetFloatParameter(const std::string & name)
+float ResourceManager::GetFloatParameter(const std::string& name)
 {
 	auto it = parameters.find(name);
 
@@ -77,7 +86,7 @@ float ResourceManager::GetFloatParameter(const std::string & name)
 	return 0.0f;
 }
 
-std::string ResourceManager::GetStringParameter(const std::string & name)
+std::string ResourceManager::GetStringParameter(const std::string& name)
 {
 	auto it = parameters.find(name);
 
@@ -87,4 +96,14 @@ std::string ResourceManager::GetStringParameter(const std::string & name)
 		Logger::Log("Cannot find parameter with name: ", name, "!\n");
 
 	return std::string();
+}
+
+std::shared_ptr<Mesh> ResourceManager::GetMesh(const std::string& name)
+{
+	auto it = meshes.find(name);
+
+	if (it != meshes.end())
+		return it->second;
+	else
+		return LoadMesh(name);
 }
