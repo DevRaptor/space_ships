@@ -12,9 +12,9 @@ public:
 	{
 		motion_state = std::make_unique<btDefaultMotionState>
 			(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
-		btScalar mass = 1;
+		btScalar mass = 1.0f;
 		btVector3 inertia(0, 0, 0);
-		collision_shape = std::make_unique<btSphereShape>(1);
+		collision_shape = std::make_unique<btSphereShape>(1.0f);
 		collision_shape->calculateLocalInertia(mass, inertia);
 		btRigidBody::btRigidBodyConstructionInfo body_info(mass, motion_state.get(),
 			collision_shape.get(), inertia);

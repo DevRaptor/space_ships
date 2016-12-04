@@ -52,10 +52,11 @@ public:
 
 	EntityType GetType() { return type; }
 
+	std::unique_ptr<PhysicBody> physic_body;
 
 protected:
 	EntityType type;
 
 	std::shared_ptr<Mesh> mesh;
-	std::unique_ptr<PhysicBody> physic_body;
+	
 };

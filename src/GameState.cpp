@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "entity/Ship.h"
 
 GameState::GameState()
 {
@@ -13,10 +14,10 @@ GameState::GameState()
 	dynamicsWorld = std::make_shared<btDiscreteDynamicsWorld>(dispatcher.get(), broad_phase.get(), 
 		solver.get(), collision_config.get());
 
-	dynamicsWorld->setGravity(btVector3(-1, -1, 0));
+	dynamicsWorld->setGravity(btVector3(0, 0, 0));
 
 
-	ship = std::make_shared<Entity>(dynamicsWorld);
+	ship = std::make_shared<Ship>(dynamicsWorld, glm::vec3(0, -2, 0));
 }
 
 GameState::~GameState()

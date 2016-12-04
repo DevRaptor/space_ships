@@ -75,8 +75,8 @@ void GameEngine::Update()
 		state->Update(time_step);
 	}
 
-	GameModule::input.Update();
-	if (GameModule::input.GetKeyState(SDL_SCANCODE_ESCAPE))
+	GameModule::input->Update();
+	if (GameModule::input->GetKeyState(SDL_SCANCODE_ESCAPE))
 		exit = true;
 
 	renderer->Render(state);
