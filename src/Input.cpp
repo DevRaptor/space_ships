@@ -2,6 +2,7 @@
 
 Input::Input()
 {
+	key_state = const_cast<Uint8*>(SDL_GetKeyboardState(NULL));
 }
 
 Input::~Input()

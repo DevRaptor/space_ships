@@ -20,8 +20,6 @@ GameEngine::GameEngine()
 	Logger::Log("============Space Ships============\n");
 	Logger::Log("===================================\n");
 
-	GameModule::Init();
-
 	std::time_t actual_date = std::time(nullptr);
 	Logger::Log("Start date: ", std::ctime(&actual_date), "\n");
 
@@ -35,6 +33,8 @@ GameEngine::GameEngine()
 		Logger::Log("Cannot init SDL!\n");
 		std::exit(EXIT_FAILURE);
 	}
+
+	GameModule::Init();
 
 	Logger::Log("Platform: ", SDL_GetPlatform(), "\n");
 
@@ -62,6 +62,10 @@ void GameEngine::Update()
 {
 	HandleEvents();
 
+	GameModule::input->Update();
+	if (GameModule::input->GetKeyState(SDL_SCANCODE_ESCAPE))
+		exit = true;
+
 	auto delta_time = Clock::now() - time_start;
 	time_start = Clock::now();
 
@@ -74,10 +78,6 @@ void GameEngine::Update()
 
 		state->Update(time_step);
 	}
-
-	GameModule::input->Update();
-	if (GameModule::input->GetKeyState(SDL_SCANCODE_ESCAPE))
-		exit = true;
 
 	renderer->Render(state);
 }
