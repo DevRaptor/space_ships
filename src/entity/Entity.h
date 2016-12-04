@@ -22,11 +22,12 @@ class Entity
 public:
 	glm::mat4 transform_mat;
 
-	Entity(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr)
+	Entity(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, 
+		glm::vec3 pos, glm::vec3 scale)
 	{
 		type = EntityType::NONE;
 		mesh = GameModule::resources->GetMesh("cube");
-		physic_body = std::make_unique<PhysicBody>(world_ptr);
+		physic_body = std::make_unique<PhysicBody>(world_ptr, pos, scale);
 	}
 
 	virtual ~Entity() { }

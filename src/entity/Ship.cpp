@@ -1,7 +1,7 @@
 #include "Ship.h"
 
 Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos)
-	: Entity(world_ptr)
+	: Entity(world_ptr, start_pos, glm::vec3(1.0f, 1.0f, 1.0f))
 {
 	type = EntityType::SHIP;
 
