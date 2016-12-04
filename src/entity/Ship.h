@@ -12,5 +12,11 @@ public:
 
 protected:
 	float move_speed;
+	float move_speed_max;
+
+	float move_damping;
+	float stop_damping;
+
+	float movement_limit;
 };
 
