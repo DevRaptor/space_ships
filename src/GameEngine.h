@@ -36,7 +36,7 @@ private:
 
 	std::chrono::microseconds lag;
 
-	std::chrono::steady_clock::time_point time_start;
+	std::chrono::high_resolution_clock::time_point time_start;
 
 	void HandleEvents();
 
