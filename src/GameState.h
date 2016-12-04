@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <memory>
+#include <vector>
 
 #include <SDL.h>
 
@@ -24,8 +25,8 @@ public:
 private:
 
 	std::shared_ptr<Entity> ship;
-	std::shared_ptr<Entity> meteors;
-	std::shared_ptr<Entity> bullets;
+	std::vector<std::shared_ptr<Entity>> meteors;
+	std::vector<std::shared_ptr<Entity>> bullets;
 
 	//physics
 	std::unique_ptr<btBroadphaseInterface> broad_phase;

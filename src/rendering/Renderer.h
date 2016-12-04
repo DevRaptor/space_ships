@@ -30,8 +30,6 @@ protected:
 
 	std::shared_ptr<ShaderProgram> shader_program;
 
-	GLuint vertex_buffer;
-	GLuint color_buffer;
 	glm::mat4 mvp;
 	GLuint transform_uniform;
 	GLuint mvp_uniform;

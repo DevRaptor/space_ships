@@ -51,18 +51,14 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 	glClear(GL_COLOR_BUFFER_BIT);
 	SDL_GL_SwapWindow(window);
 
-	GLuint vertex_array;
-	glGenVertexArrays(1, &vertex_array);
-	glBindVertexArray(vertex_array);
-
 	shader_program = std::make_shared<ShaderProgram>("data/shaders/color.vert", "data/shaders/color.frag");
 
 	shader_program->UseProgram();
 
 	mvp_uniform = glGetUniformLocation(shader_program->GetProgram(), "mvp");
 	transform_uniform = glGetUniformLocation(shader_program->GetProgram(), "transform");
-	float ratio = static_cast<float>(resolution_x) / static_cast<float>(resolution_y);
 
+	float ratio = static_cast<float>(resolution_x) / static_cast<float>(resolution_y);
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), ratio, 0.1f, 100.0f);
 
 	glm::mat4 view = glm::lookAt(
@@ -73,13 +69,6 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 	glm::mat4 model = glm::mat4(1.0f);
 
 	mvp = projection * view * model;
-
-	//Triangle
-	/*static const GLfloat vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f,  1.0f, 0.0f,
-	};*/
 }
 
 Renderer::~Renderer()
@@ -99,6 +88,18 @@ void Renderer::Render(std::shared_ptr<GameState> game_state)
 	{
 		glUniformMatrix4fv(transform_uniform, 1, GL_FALSE, glm::value_ptr(game_state->ship->transform_mat));
 		game_state->ship->Draw();
+	}
+
+	for (auto ptr : game_state->meteors)
+	{
+		glUniformMatrix4fv(transform_uniform, 1, GL_FALSE, glm::value_ptr(ptr->transform_mat));
+		ptr->Draw();
+	}
+
+	for (auto ptr : game_state->bullets)
+	{
+		glUniformMatrix4fv(transform_uniform, 1, GL_FALSE, glm::value_ptr(ptr->transform_mat));
+		ptr->Draw();
 	}
 
 	SDL_GL_SwapWindow(window);

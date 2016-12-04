@@ -4,6 +4,7 @@
 
 #include "utility/Log.h"
 
+GLuint ShaderProgram::active_program = 0;
 
 ShaderProgram::ShaderProgram(const std::string& vert_path, const std::string& frag_path)
 {
@@ -56,7 +57,10 @@ ShaderProgram::~ShaderProgram()
 
 void ShaderProgram::UseProgram()
 {
-	glUseProgram(program);
+	if(program != active_program)
+		glUseProgram(program);
+
+	active_program = program;
 }
 
 
