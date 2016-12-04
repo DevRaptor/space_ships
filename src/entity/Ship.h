@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 #include "entity/Entity.h"
 
 class Ship : public Entity
@@ -18,5 +20,10 @@ protected:
 	float stop_damping;
 
 	float movement_limit;
+
+	int shoot_delay; //time to next shoot, in ms
+	std::chrono::steady_clock::time_point shoot_timer;
+
+	void Shoot();
 };
 

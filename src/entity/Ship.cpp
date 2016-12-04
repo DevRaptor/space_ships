@@ -19,6 +19,8 @@ Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_p
 
 	//disable rotation
 	physic_body->body->setAngularFactor(btVector3(0, 0, 0));
+
+	shoot_delay = GameModule::resources->GetIntParameter("ship_shoot_delay");
 }
 
 Ship::~Ship()
@@ -65,4 +67,19 @@ void Ship::Update()
 		velocity *= move_speed_max / velocity.length();
 		physic_body->body->setLinearVelocity(velocity);
 	}
+
+
+	//shooting
+	if ((std::chrono::high_resolution_clock::now() > shoot_timer)
+		&& GameModule::input->GetKeyState(SDL_SCANCODE_SPACE))
+	{
+		Shoot();
+
+		shoot_timer = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(shoot_delay);
+	}
+}
+
+void Ship::Shoot()
+{
+	std::cout << "Shoot!\n";
 }
