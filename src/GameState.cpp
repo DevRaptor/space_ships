@@ -18,7 +18,7 @@ GameState::GameState()
 	dynamicsWorld->setGravity(btVector3(0, 0, 0));
 
 
-	ship = std::make_shared<Ship>(dynamicsWorld, glm::vec3(0, -2, 0));
+	ship = std::make_shared<Ship>(dynamicsWorld, glm::vec3(0, 0, 0), bullets);
 }
 
 GameState::~GameState()

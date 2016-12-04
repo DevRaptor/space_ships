@@ -3,7 +3,7 @@
 Meteor::Meteor(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos, glm::vec3 scale)
 	: Entity(world_ptr, start_pos, scale)
 {
-	type = EntityType::SHIP;
+	type = EntityType::METEOR;
 
 	//2d movement
 	physic_body->body->setLinearFactor(btVector3(1, 0, 1));

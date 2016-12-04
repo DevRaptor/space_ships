@@ -1,7 +1,10 @@
 #include "Ship.h"
 
-Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos)
-	: Entity(world_ptr, start_pos, glm::vec3(1.0f, 1.0f, 1.0f))
+#include "Bullet.h"
+
+Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos,
+	std::vector<std::shared_ptr<Entity>>& bullet_container)
+	: Entity(world_ptr, start_pos, glm::vec3(1.0f, 1.0f, 1.0f)), bullets(bullet_container)
 {
 	type = EntityType::SHIP;
 
@@ -82,4 +85,16 @@ void Ship::Update()
 void Ship::Shoot()
 {
 	std::cout << "Shoot!\n";
+	
+	btTransform transform;
+	physic_body->body->getMotionState()->getWorldTransform(transform);
+	
+	btVector3 vec = transform.getOrigin();
+	vec.setX(vec.getX() - 2.0f);
+	glm::vec3 pos(vec.getX(), vec.getY(), vec.getZ());
+
+	auto bullet = std::make_shared<Bullet>(physic_body->world.lock(), shared_from_this(),
+		pos, glm::vec3(0.5f, 0.5f, 0.5f));
+
+	bullets.push_back(bullet);
 }

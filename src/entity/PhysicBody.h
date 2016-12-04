@@ -6,6 +6,7 @@
 
 class PhysicBody
 {
+	friend class Ship;
 public:
 	std::unique_ptr<btRigidBody> body;
 	glm::vec3 scale;

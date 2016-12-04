@@ -1,13 +1,15 @@
 #pragma once
 
 #include <chrono>
+#include <vector>
 
 #include "entity/Entity.h"
 
-class Ship : public Entity
+class Ship : public Entity, public std::enable_shared_from_this<Ship>
 {
 public:
-	Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos);
+	Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos,
+	std::vector<std::shared_ptr<Entity>>& bullet_container);
 	~Ship();
 
 	void Update() override;
@@ -23,6 +25,8 @@ protected:
 
 	int shoot_delay; //time to next shoot, in ms
 	std::chrono::steady_clock::time_point shoot_timer;
+
+	std::vector<std::shared_ptr<Entity>>& bullets;
 
 	void Shoot();
 };
