@@ -2,6 +2,8 @@
 cmake_minimum_required (VERSION 3.0)
 
 # project info
+######################################################
+
 set(PROJECT_NAME space_ships)
 set(TARGET_NAME "${PROJECT_NAME}")
 project( ${PROJECT_NAME})
@@ -15,6 +17,8 @@ file(GLOB_RECURSE TARGET_HEADERS src/*.h src/*.hpp)
 include_directories(src/)
 
 #compiler
+######################################################
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   add_definitions(-Wall)
   add_definitions(-std=c++14)
@@ -22,22 +26,25 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif()
 
 
-# Windows workarounds
-if( WIN32 )
-  set( WIN_LIB_DIR "${CMAKE_SOURCE_DIR}/libs" )
-  # lib locations
+# libs for Windows from space_ships/libs
+######################################################
+
+if(WIN32)
+  set(WIN_LIB_DIR "${CMAKE_SOURCE_DIR}/libs")
+
   set( CMAKE_PREFIX_PATH "${WIN_LIB_DIR}/glew")
   set( GLM_ROOT_DIR "${WIN_LIB_DIR}/glm")
   set( ENV{SDL2DIR} "${WIN_LIB_DIR}/SDL2")
   set( BULLET_ROOT  "${WIN_LIB_DIR}/bullet")
 
-  # libraries needed when linking SDL2 statically
+  # for static SDL2 linking
   set( LIBRARIES "version.lib;imm32.lib;winmm.lib;")
-endif( WIN32 )
+endif()
 
 
 
-# libs
+# Find libs
+######################################################
 
 # Find GLM
 find_package(GLM REQUIRED)
@@ -54,8 +61,6 @@ if (GLEW_FOUND)
     set( LIBRARIES ${LIBRARIES} ${GLEW_LIBRARIES} )
 endif(GLEW_FOUND)
 
-
-
 # Find OpenGL
 find_package(OpenGL 3.3 REQUIRED)
 if(OPENGL_FOUND)
@@ -69,11 +74,15 @@ include_directories( ${SDL2_INCLUDE_DIR})
 set(LIBRARIES ${LIBRARIES} ${SDL2_LIBRARY})
 
 # Find bullet
-find_package( BULLET REQUIRED )
+find_package(Bullet REQUIRED)
 if( BULLET_FOUND )
   set( LIBRARIES ${LIBRARIES} ${BULLET_LIBRARIES} )
   include_directories( ${BULLET_INCLUDE_DIRS} )
 endif( BULLET_FOUND )
+
+
+#exe
+######################################################
 
 add_executable(${TARGET_NAME} ${TARGET_SRC} ${TARGET_HEADERS})
 target_link_libraries(${TARGET_NAME} ${LIBRARIES})
