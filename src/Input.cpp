@@ -3,6 +3,7 @@
 Input::Input()
 {
 	key_state = const_cast<Uint8*>(SDL_GetKeyboardState(NULL));
+	left_mouse_button_pressed = false;
 }
 
 Input::~Input()

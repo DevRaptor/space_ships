@@ -38,7 +38,8 @@ ShaderProgram::ShaderProgram(const std::string& vert_path, const std::string& fr
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_length);
 	if (info_length > 0) 
 	{
-		std::vector<char> error_message(info_length + 1);
+		std::string error_message;
+		error_message.reserve(info_length + 1);
 		glGetProgramInfoLog(program, info_length, NULL, &error_message[0]);
 		Logger::Log("Shader program error: ", std::string(&error_message[0]));
 	}

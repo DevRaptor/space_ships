@@ -23,7 +23,7 @@ protected:
 
 	float movement_limit;
 
-	int shoot_delay; //time to next shoot, in ms
+	std::chrono::milliseconds shoot_delay; //time to next shoot
 	std::chrono::high_resolution_clock::time_point shoot_timer;
 
 	std::vector<std::shared_ptr<Entity>>& bullets;

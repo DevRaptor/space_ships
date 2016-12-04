@@ -13,5 +13,5 @@ void GameModule::Init()
 
 	srand(time(NULL));
 	
-	random_gen.seed();
+	random_gen.seed(rand());
 }

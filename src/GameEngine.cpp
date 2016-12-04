@@ -1,7 +1,6 @@
 #include "GameEngine.h"
 
-#include <ctime>
-#include <cstdlib>
+#include <iomanip>
 #include <chrono>
 
 #include "GameModule.h"
@@ -20,9 +19,8 @@ GameEngine::GameEngine()
 	Logger::Log("============Space Ships============\n");
 	Logger::Log("===================================\n");
 
-	std::time_t actual_date = std::time(nullptr);
-	Logger::Log("Start date: ", std::ctime(&actual_date), "\n");
-
+	std::time_t actual_date = std::time(nullptr);;
+	Logger::Log("Start date: ", std::put_time(std::localtime(&actual_date), "%c \n"));
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
