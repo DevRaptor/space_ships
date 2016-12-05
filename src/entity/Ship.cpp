@@ -98,7 +98,7 @@ void Ship::Shoot()
 	vec.setX(vec.getX() - 2.0f);
 	glm::vec3 pos(vec.getX(), vec.getY(), vec.getZ());
 
-	auto bullet = std::make_shared<Bullet>(world.lock(), pos, glm::vec3(0.5f, 0.5f, 0.5f));
+	auto bullet = std::make_shared<Bullet>(world.lock(), pos, glm::vec3(0.3f, 0.3f, 0.3f));
 	bullet->Init();
 
 	bullets.push_back(bullet);

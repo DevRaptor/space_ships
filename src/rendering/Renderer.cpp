@@ -68,7 +68,7 @@ Renderer::Renderer(int resolution_x, int resolution_y)
 
 	glm::mat4 view = glm::lookAt(
 		camera_pos,
-		glm::vec3(-10, 0, 0),
+		glm::vec3(-12, 0, 0),
 		glm::vec3(0, 1, 0));
 
 	glm::mat4 model = glm::mat4(1.0f);

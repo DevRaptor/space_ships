@@ -8,7 +8,7 @@
 
 GameState::GameState()
 {
-	meteor_data.pos_x = -GameModule::resources->GetFloatParameter("camera_pos_y");
+	meteor_data.pos_x = -GameModule::resources->GetFloatParameter("camera_pos_y") * 1.2f;
 	meteor_data.pos_z = GameModule::resources->GetFloatParameter("camera_pos_y") / 2.0f;
 
 	meteor_data.scale_min = GameModule::resources->GetFloatParameter("meteor_scale_min");
