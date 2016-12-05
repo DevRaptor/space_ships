@@ -19,18 +19,18 @@ Simple 3d game, player must destroy all meteors!
 - Bullet 2.85
 
 #Windows libs
-https://drive.google.com/open?id=0B4SOnH8nJHkwelk4NWYxOU1sZ2c
+https://github.com/DevRaptor/space_ships/files/630153/libs_only.zip
 
 Copy libs folder to repository main folder
 
 #Repository with Windows libs
 Repository with all needed libraries for Visual Studio 2015 (release Win32 target):
-https://drive.google.com/open?id=0B4SOnH8nJHkwTEt2czVPNlVhT0E
+https://github.com/DevRaptor/space_ships/files/630150/Space_Ships_with_libs.zip
 
 instruction:
 -  Run cmake and generate Visual Studio 2015 project to /build folder
 
 #Game only
-https://drive.google.com/open?id=0B4SOnH8nJHkweHJIZjJRdnBDc3M
+https://github.com/DevRaptor/space_ships/files/630151/Space_Ships_game.zip
 
 Warning: Visual Studio build require copy Data folder to your build folder, or copy/generate exe to main repository folder.
