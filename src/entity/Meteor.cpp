@@ -44,5 +44,10 @@ void Meteor::Update()
 	transform_mat = physic_body->GetTransformMatrix();
 
 
+	btTransform transform;
+	physic_body->body->getMotionState()->getWorldTransform(transform);
+	float pos_x = transform.getOrigin().getX();
 
+	if (pos_x > 3.0f)
+		Destroy();
 }

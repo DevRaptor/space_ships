@@ -10,6 +10,8 @@ public:
 		glm::vec3 start_pos, glm::vec3 scale);
 	~Bullet();
 
+	void Update() override;
+
 protected:
 	std::weak_ptr<Entity> owner;
 };

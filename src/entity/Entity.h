@@ -24,6 +24,7 @@ public:
 
 	Entity(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, 
 		glm::vec3 pos, glm::vec3 scale)
+		: destroyed(false)
 	{
 		type = EntityType::NONE;
 		mesh = GameModule::resources->GetMesh("cube");
@@ -53,11 +54,16 @@ public:
 
 	EntityType GetType() { return type; }
 
+	void Destroy() { destroyed = true; }
+	bool IsDestroyed() { return destroyed; }
+
 	std::unique_ptr<PhysicBody> physic_body;
 
 protected:
 	EntityType type;
 
 	std::shared_ptr<Mesh> mesh;
+
+	bool destroyed;
 	
 };

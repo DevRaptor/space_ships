@@ -49,4 +49,7 @@ private:
 	} meteor_data;
 
 	void SpawnMeteor();
+
+	void InitGameplay();
+	void RestartGameplay();
 };
