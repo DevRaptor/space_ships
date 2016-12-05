@@ -12,7 +12,6 @@ public:
 
 	Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos,
 		std::vector<std::shared_ptr<Entity>>& bullet_container);
-	~Ship();
 
 	void Init() override;
 	void Update() override;

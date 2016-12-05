@@ -8,10 +8,6 @@ Bullet::Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
 	mesh = GameModule::resources->GetMesh("cube");
 }
 
-Bullet::~Bullet()
-{
-}
-
 void Bullet::Init()
 {
 	physic_body = std::make_unique<PhysicBody>(world.lock(), pos, scale, type, shared_from_this());

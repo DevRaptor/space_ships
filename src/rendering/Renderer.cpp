@@ -108,5 +108,4 @@ void Renderer::Render(std::shared_ptr<GameState> game_state)
 	}
 
 	SDL_GL_SwapWindow(window);
-
 }

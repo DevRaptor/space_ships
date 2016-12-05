@@ -7,10 +7,6 @@ Meteor::Meteor(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 sta
 	mesh = GameModule::resources->GetMesh("cube");
 }
 
-Meteor::~Meteor()
-{
-}
-
 void Meteor::Init()
 {
 	physic_body = std::make_unique<PhysicBody>(world.lock(), pos, scale, type, shared_from_this());
@@ -26,13 +22,13 @@ void Meteor::Init()
 	float deflection = GameModule::resources->GetFloatParameter("meteor_move_deflection");
 	std::uniform_real_distribution<> rand_deflection(-deflection, deflection);
 
-	velocity = btVector3(rand_vel(GameModule::random_gen), 0, rand_deflection(GameModule::random_gen));
+	btVector3 velocity = btVector3(rand_vel(GameModule::random_gen), 0, rand_deflection(GameModule::random_gen));
 
 
 	float max_rotation = GameModule::resources->GetFloatParameter("meteor_max_rotation");
 	std::uniform_real_distribution<> rand_rot(-max_rotation, max_rotation);
 
-	rotation = btVector3(rand_rot(GameModule::random_gen), rand_rot(GameModule::random_gen),
+	btVector3 rotation = btVector3(rand_rot(GameModule::random_gen), rand_rot(GameModule::random_gen),
 		rand_rot(GameModule::random_gen));
 
 

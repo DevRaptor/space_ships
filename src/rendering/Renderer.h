@@ -2,7 +2,6 @@
 
 #include <memory>
 
-
 #define GLEW_STATIC //needed to static link GLEW
 #include <GL/glew.h>
 
@@ -13,7 +12,6 @@
 
 #include "rendering/Mesh.h"
 #include "rendering/ShaderProgram.h"
-
 
 
 class Renderer

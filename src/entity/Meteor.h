@@ -7,14 +7,8 @@ class Meteor : public Entity, public std::enable_shared_from_this<Meteor>
 public:
 	Meteor(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
 		glm::vec3 start_pos, glm::vec3 scale);
-	~Meteor();
 
 	void Init() override;
 	void Update() override;
-
-protected:
-
-	btVector3 velocity;
-	btVector3 rotation;
 };
 

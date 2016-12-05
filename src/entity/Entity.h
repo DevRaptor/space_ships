@@ -24,12 +24,12 @@ public:
 		type = EntityType::NONE;
 	}
 
-	virtual ~Entity() { }
+	virtual ~Entity() = default;
 
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 
-	virtual void Draw()
+	void Draw()
 	{
 		if (mesh)
 		{
@@ -44,13 +44,11 @@ public:
 
 	RigidBody* GetRigidBody() { return physic_body->body.get(); }
 
-	std::unique_ptr<PhysicBody> physic_body;
-
 protected:
 	EntityType type;
 
 	std::shared_ptr<Mesh> mesh;
-
+	std::unique_ptr<PhysicBody> physic_body;
 	std::weak_ptr<btDiscreteDynamicsWorld> world;
 	glm::vec3 pos;
 	glm::vec3 scale;

@@ -22,12 +22,7 @@ Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_p
 	// min/max world position
 	movement_limit = (GameModule::resources->GetFloatParameter("camera_pos_y") / 2.0f) * 0.8f;
 
-
 	shoot_delay = std::chrono::milliseconds(GameModule::resources->GetIntParameter("ship_shoot_delay"));
-}
-
-Ship::~Ship()
-{
 }
 
 void Ship::Init()
@@ -96,8 +91,6 @@ void Ship::Update()
 
 void Ship::Shoot()
 {
-	std::cout << "Shoot!\n";
-
 	btTransform transform;
 	physic_body->body->getMotionState()->getWorldTransform(transform);
 
@@ -105,7 +98,7 @@ void Ship::Shoot()
 	vec.setX(vec.getX() - 2.0f);
 	glm::vec3 pos(vec.getX(), vec.getY(), vec.getZ());
 
-	auto bullet = std::make_shared<Bullet>(physic_body->world.lock(), pos, glm::vec3(0.5f, 0.5f, 0.5f));
+	auto bullet = std::make_shared<Bullet>(world.lock(), pos, glm::vec3(0.5f, 0.5f, 0.5f));
 	bullet->Init();
 
 	bullets.push_back(bullet);

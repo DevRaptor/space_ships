@@ -47,6 +47,7 @@ GameEngine::GameEngine()
 
 GameEngine::~GameEngine()
 {
+	state.reset();
 	renderer.reset(); //close context and window before SDL_Quit()
 	SDL_Quit();
 

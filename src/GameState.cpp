@@ -32,6 +32,7 @@ GameState::GameState()
 
 GameState::~GameState()
 {
+	Logger::Log("Close gameplay with: ", Ship::points, " points\n");
 }
 
 void GameState::Update(std::chrono::milliseconds delta_time)
@@ -129,7 +130,7 @@ void GameState::InitGameplay()
 
 void GameState::RestartGameplay()
 {
-	Logger::Log("Restart gameplay\n");
+	Logger::Log("Restart gameplay, points: ", Ship::points, "\n");
 
 	ship.reset();
 	meteors.clear();
