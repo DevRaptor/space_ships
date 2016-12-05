@@ -4,6 +4,16 @@ Meteor::Meteor(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 sta
 	: Entity(world_ptr, start_pos, scale)
 {
 	type = EntityType::METEOR;
+	mesh = GameModule::resources->GetMesh("cube");
+}
+
+Meteor::~Meteor()
+{
+}
+
+void Meteor::Init()
+{
+	physic_body = std::make_unique<PhysicBody>(world.lock(), pos, scale, type, shared_from_this());
 
 	//2d movement
 	physic_body->body->setLinearFactor(btVector3(1, 0, 1));
@@ -33,10 +43,6 @@ Meteor::Meteor(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 sta
 
 	//to avoid render on start in world center
 	transform_mat = physic_body->GetTransformMatrix();
-}
-
-Meteor::~Meteor()
-{
 }
 
 void Meteor::Update()

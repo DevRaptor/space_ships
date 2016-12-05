@@ -8,6 +8,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
+#include "CustomCallback.h"
 #include "entity/Entity.h"
 
 class Renderer;
@@ -33,7 +34,10 @@ private:
 	std::unique_ptr<btDefaultCollisionConfiguration> collision_config;
 	std::unique_ptr<btCollisionDispatcher> dispatcher;
 	std::unique_ptr<btSequentialImpulseConstraintSolver> solver;
-	std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
+	std::shared_ptr<btDiscreteDynamicsWorld> dynamic_world;
+
+	CustomCallback callback;
+
 
 	struct
 	{

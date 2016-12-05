@@ -1,11 +1,20 @@
 #include "Bullet.h"
 
 Bullet::Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
-	std::shared_ptr<Entity> owner_object,
 	glm::vec3 start_pos, glm::vec3 scale)
-	: Entity(world_ptr, start_pos, scale), owner(owner_object)
+	: Entity(world_ptr, start_pos, scale)
 {
 	type = EntityType::BULLET;
+	mesh = GameModule::resources->GetMesh("cube");
+}
+
+Bullet::~Bullet()
+{
+}
+
+void Bullet::Init()
+{
+	physic_body = std::make_unique<PhysicBody>(world.lock(), pos, scale, type, shared_from_this());
 
 	//2d movement
 	physic_body->body->setLinearFactor(btVector3(1, 0, 1));
@@ -16,10 +25,6 @@ Bullet::Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
 
 	//to avoid render on start in world center
 	transform_mat = physic_body->GetTransformMatrix();
-}
-
-Bullet::~Bullet()
-{
 }
 
 void Bullet::Update()

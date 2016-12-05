@@ -22,10 +22,10 @@ GameState::GameState()
 	dispatcher = std::make_unique<btCollisionDispatcher>(collision_config.get());
 	solver = std::make_unique<btSequentialImpulseConstraintSolver>();
 
-	dynamicsWorld = std::make_shared<btDiscreteDynamicsWorld>(dispatcher.get(), broad_phase.get(),
+	dynamic_world = std::make_shared<btDiscreteDynamicsWorld>(dispatcher.get(), broad_phase.get(),
 		solver.get(), collision_config.get());
 
-	dynamicsWorld->setGravity(btVector3(0, 0, 0));
+	dynamic_world->setGravity(btVector3(0, 0, 0));
 
 	InitGameplay();
 }
@@ -37,33 +37,48 @@ GameState::~GameState()
 void GameState::Update(std::chrono::milliseconds delta_time)
 {
 	float delta = delta_time.count() / 1000.0f; //in seconds
-	dynamicsWorld->stepSimulation(delta, 10);
+	dynamic_world->stepSimulation(delta, 10);
 
-	ship->Update();
-	if (ship->IsDestroyed())
+	if (ship)
 	{
+		ship->Update();
+
+		//must check collisions between ship and meteors
+		dynamic_world->contactTest(ship->GetRigidBody(), callback);
+
+		if (ship->IsDestroyed())
+			RestartGameplay();
+	}
+	else
 		RestartGameplay();
-	}
 
-	auto it = meteors.begin();
-	while (it != meteors.end())
+
+	auto it = bullets.begin();
+	while (it != bullets.end())
 	{
-		(*it)->Update();
-
 		if ((*it)->IsDestroyed())
-			it = meteors.erase(it);
+		{
+			it = bullets.erase(it);
+		}
 		else
+		{
+			(*it)->Update();
+
+			//must check collisions between bullets and meteors
+			dynamic_world->contactTest((*it)->GetRigidBody(), callback);
+
 			++it;
+		}
 	}
 
 
-	auto iter = bullets.begin();
-	while (iter != bullets.end())
+	auto iter = meteors.begin();
+	while (iter != meteors.end())
 	{
 		(*iter)->Update();
 
 		if ((*iter)->IsDestroyed())
-			iter = bullets.erase(iter);
+			iter = meteors.erase(iter);
 		else
 			++iter;
 	}
@@ -99,14 +114,17 @@ void GameState::SpawnMeteor()
 	//must lower meteor position by half of size
 	glm::vec3 pos(meteor_data.pos_x, -size / 2.0f, rand_pos_z(GameModule::random_gen));
 
-	meteors.push_back(std::make_shared<Meteor>(dynamicsWorld, pos, scale));
+	auto meteor = std::make_shared<Meteor>(dynamic_world, pos, scale);
+	meteor->Init();
+	meteors.push_back(meteor);
 }
 
 void GameState::InitGameplay()
 {
 	meteor_data.delay = std::chrono::milliseconds(GameModule::resources->GetIntParameter("meteor_delay"));
 
-	ship = std::make_shared<Ship>(dynamicsWorld, glm::vec3(0, 0, 0), bullets);
+	ship = std::make_shared<Ship>(dynamic_world, glm::vec3(0, 0, 0), bullets);
+	ship->Init();
 }
 
 void GameState::RestartGameplay()

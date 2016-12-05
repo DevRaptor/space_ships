@@ -2,11 +2,16 @@
 
 #include "Bullet.h"
 
+int Ship::points = 0;
+
 Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_pos,
 	std::vector<std::shared_ptr<Entity>>& bullet_container)
 	: Entity(world_ptr, start_pos, glm::vec3(1.0f, 1.0f, 1.0f)), bullets(bullet_container)
 {
 	type = EntityType::SHIP;
+	mesh = GameModule::resources->GetMesh("cube");
+	
+	points = 0;
 
 	move_speed = GameModule::resources->GetFloatParameter("ship_move_speed");
 	move_damping = GameModule::resources->GetFloatParameter("ship_move_damping");
@@ -17,17 +22,24 @@ Ship::Ship(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 start_p
 	// min/max world position
 	movement_limit = (GameModule::resources->GetFloatParameter("camera_pos_y") / 2.0f) * 0.8f;
 
-	//only left/right movement
-	physic_body->body->setLinearFactor(btVector3(0, 0, 1));
-
-	//disable rotation
-	physic_body->body->setAngularFactor(btVector3(0, 0, 0));
 
 	shoot_delay = std::chrono::milliseconds(GameModule::resources->GetIntParameter("ship_shoot_delay"));
 }
 
 Ship::~Ship()
 {
+}
+
+void Ship::Init()
+{
+	physic_body = std::make_unique<PhysicBody>(world.lock(), pos, glm::vec3(1.0f, 1.0f, 1.0f), type, shared_from_this());
+
+	//only left/right movement
+	physic_body->body->setLinearFactor(btVector3(0, 0, 1));
+
+	//disable rotation
+	physic_body->body->setAngularFactor(btVector3(0, 0, 0));
+
 }
 
 void Ship::Update()
@@ -93,8 +105,8 @@ void Ship::Shoot()
 	vec.setX(vec.getX() - 2.0f);
 	glm::vec3 pos(vec.getX(), vec.getY(), vec.getZ());
 
-	auto bullet = std::make_shared<Bullet>(physic_body->world.lock(), shared_from_this(),
-		pos, glm::vec3(0.5f, 0.5f, 0.5f));
+	auto bullet = std::make_shared<Bullet>(physic_body->world.lock(), pos, glm::vec3(0.5f, 0.5f, 0.5f));
+	bullet->Init();
 
 	bullets.push_back(bullet);
 }
