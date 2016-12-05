@@ -30,6 +30,9 @@ Meteor::Meteor(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, glm::vec3 sta
 
 	physic_body->body->setLinearVelocity(velocity);
 	physic_body->body->setAngularVelocity(rotation);
+
+	//to avoid render on start in world center
+	transform_mat = physic_body->GetTransformMatrix();
 }
 
 Meteor::~Meteor()
