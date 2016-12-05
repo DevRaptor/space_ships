@@ -48,6 +48,8 @@ private:
 		float scale_max;
 		float distortion;
 
+		int min_delay; //in ms
+		int default_delay; //in ms
 		std::chrono::milliseconds delay; //time to next shoot
 		std::chrono::high_resolution_clock::time_point timer;
 	} meteor_data;

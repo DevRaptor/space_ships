@@ -15,7 +15,8 @@ GameState::GameState()
 	meteor_data.scale_max = GameModule::resources->GetFloatParameter("meteor_scale_max");
 	meteor_data.distortion = GameModule::resources->GetFloatParameter("meteor_max_distortion");
 
-
+	meteor_data.default_delay = GameModule::resources->GetIntParameter("meteor_delay");
+	meteor_data.min_delay = GameModule::resources->GetIntParameter("meteor_delay_min");
 
 	broad_phase = std::make_unique<btDbvtBroadphase>();
 	collision_config = std::make_unique<btDefaultCollisionConfiguration>();
@@ -91,6 +92,10 @@ void GameState::Update(std::chrono::milliseconds delta_time)
 		meteor_data.timer = std::chrono::high_resolution_clock::now() + meteor_data.delay;
 	}
 
+	//change meteor delay time when player destroyed meteors
+	int delay = meteor_data.default_delay - (100 * Ship::points);
+	meteor_data.delay = std::chrono::milliseconds(delay > meteor_data.min_delay ? delay : meteor_data.min_delay);
+
 
 	static std::chrono::high_resolution_clock::time_point restart_timer = std::chrono::high_resolution_clock::now();
 	if (GameModule::input->GetKeyState(SDL_SCANCODE_R)
@@ -122,7 +127,7 @@ void GameState::SpawnMeteor()
 
 void GameState::InitGameplay()
 {
-	meteor_data.delay = std::chrono::milliseconds(GameModule::resources->GetIntParameter("meteor_delay"));
+	meteor_data.delay = std::chrono::milliseconds(meteor_data.default_delay);
 
 	ship = std::make_shared<Ship>(dynamic_world, glm::vec3(0, 0, 0), bullets);
 	ship->Init();

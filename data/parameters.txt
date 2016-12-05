@@ -18,5 +18,6 @@ meteor_max_rotation=2.0
 meteor_scale_min=0.5
 meteor_scale_max=1.5
 meteor_max_distortion=2.0
-meteor_delay=1000
+meteor_delay=2000
+meteor_delay_min=50
 bullet_move_speed=12.0
