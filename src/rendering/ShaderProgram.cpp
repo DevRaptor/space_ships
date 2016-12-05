@@ -10,7 +10,7 @@ ShaderProgram::ShaderProgram(const std::string& vert_path, const std::string& fr
 {
 	GLuint vert_shader, frag_shader;
 	std::string vert_buffer, frag_buffer;
-	
+
 	glUseProgram(0);
 	program = glCreateProgram();
 
@@ -30,13 +30,13 @@ ShaderProgram::ShaderProgram(const std::string& vert_path, const std::string& fr
 
 	glLinkProgram(program);
 
-	
+
 	GLint result = GL_FALSE;
 	int info_length;
 
 	glGetProgramiv(program, GL_LINK_STATUS, &result);
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_length);
-	if (info_length > 0) 
+	if (info_length > 0)
 	{
 		std::string error_message;
 		error_message.reserve(info_length + 1);
@@ -58,7 +58,7 @@ ShaderProgram::~ShaderProgram()
 
 void ShaderProgram::UseProgram()
 {
-	if(program != active_program)
+	if (program != active_program)
 		glUseProgram(program);
 
 	active_program = program;
@@ -78,7 +78,7 @@ void ShaderProgram::LoadFile(const std::string& file_name, std::string& buffer)
 	buffer.reserve(file.tellg());
 	file.seekg(0, std::ios::beg);
 
-	buffer.assign((std::istreambuf_iterator<char>(file)), 
+	buffer.assign((std::istreambuf_iterator<char>(file)),
 		(std::istreambuf_iterator<char>()));
 
 	file.close();

@@ -37,21 +37,21 @@ void Ship::Update()
 	btTransform transform;
 	physic_body->body->getMotionState()->getWorldTransform(transform);
 	btVector3 pos = transform.getOrigin();
-	
+
 	if (pos.getZ() < movement_limit &&
 		(GameModule::input->GetKeyState(SDL_SCANCODE_LEFT)
-		|| GameModule::input->GetKeyState(SDL_SCANCODE_A)))
+			|| GameModule::input->GetKeyState(SDL_SCANCODE_A)))
 	{
 		physic_body->body->activate(true);
 
 		btVector3 impulse(0.0f, 0.0f, move_speed);
 		physic_body->body->applyCentralImpulse(impulse);
-		
+
 		physic_body->body->setDamping(move_damping, 0);
 	}
 	else if (pos.getZ() > -movement_limit &&
 		(GameModule::input->GetKeyState(SDL_SCANCODE_RIGHT)
-		|| GameModule::input->GetKeyState(SDL_SCANCODE_D)))
+			|| GameModule::input->GetKeyState(SDL_SCANCODE_D)))
 	{
 		physic_body->body->activate(true);
 
@@ -63,7 +63,7 @@ void Ship::Update()
 	{
 		physic_body->body->setDamping(stop_damping, 0);
 	}
-	
+
 	btVector3 velocity = physic_body->body->getLinearVelocity();
 	if (velocity.length() > move_speed_max)
 	{
@@ -85,10 +85,10 @@ void Ship::Update()
 void Ship::Shoot()
 {
 	std::cout << "Shoot!\n";
-	
+
 	btTransform transform;
 	physic_body->body->getMotionState()->getWorldTransform(transform);
-	
+
 	btVector3 vec = transform.getOrigin();
 	vec.setX(vec.getX() - 2.0f);
 	glm::vec3 pos(vec.getX(), vec.getY(), vec.getZ());

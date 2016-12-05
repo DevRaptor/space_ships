@@ -11,7 +11,7 @@
 
 enum class EntityType
 {
-	SHIP, 
+	SHIP,
 	METEOR,
 	BULLET,
 	NONE
@@ -22,7 +22,7 @@ class Entity
 public:
 	glm::mat4 transform_mat;
 
-	Entity(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, 
+	Entity(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
 		glm::vec3 pos, glm::vec3 scale)
 		: destroyed(false)
 	{
@@ -33,7 +33,7 @@ public:
 
 	virtual ~Entity() { }
 
-	virtual void Update() 
+	virtual void Update()
 	{
 		transform_mat = physic_body->GetTransformMatrix();
 
@@ -65,5 +65,5 @@ protected:
 	std::shared_ptr<Mesh> mesh;
 
 	bool destroyed;
-	
+
 };

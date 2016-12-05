@@ -52,13 +52,13 @@ Mesh::Mesh()
 	vertex_amount = sizeof(vertices) / sizeof(GLfloat);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(0);
 
 
 	GLfloat colors[12 * 3 * 3];
-	for (int v = 0; v < 12 * 3; v++) 
+	for (int v = 0; v < 12 * 3; v++)
 	{
 		colors[3 * v + 0] = static_cast<GLfloat>(v) / 36.0f; //R
 		colors[3 * v + 1] = static_cast<GLfloat>(v) / 36.0f; //G
@@ -68,7 +68,7 @@ Mesh::Mesh()
 	glGenBuffers(1, &vbo_color);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_color);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-	
+
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(1);
 }

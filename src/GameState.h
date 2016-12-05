@@ -37,15 +37,15 @@ private:
 
 	struct
 	{
-	float pos_x;
-	float pos_z;
+		float pos_x;
+		float pos_z;
 
-	float scale_min;
-	float scale_max;
-	float distortion;
+		float scale_min;
+		float scale_max;
+		float distortion;
 
-	std::chrono::milliseconds delay; //time to next shoot
-	std::chrono::high_resolution_clock::time_point timer;
+		std::chrono::milliseconds delay; //time to next shoot
+		std::chrono::high_resolution_clock::time_point timer;
 	} meteor_data;
 
 	void SpawnMeteor();

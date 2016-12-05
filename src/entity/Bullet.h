@@ -5,7 +5,7 @@
 class Bullet : public Entity
 {
 public:
-	Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, 
+	Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
 		std::shared_ptr<Entity> owner_object,
 		glm::vec3 start_pos, glm::vec3 scale);
 	~Bullet();

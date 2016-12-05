@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr, 
+Bullet::Bullet(std::shared_ptr<btDiscreteDynamicsWorld> world_ptr,
 	std::shared_ptr<Entity> owner_object,
 	glm::vec3 start_pos, glm::vec3 scale)
 	: Entity(world_ptr, start_pos, scale), owner(owner_object)

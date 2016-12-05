@@ -14,15 +14,15 @@ GameState::GameState()
 	meteor_data.scale_min = GameModule::resources->GetFloatParameter("meteor_scale_min");
 	meteor_data.scale_max = GameModule::resources->GetFloatParameter("meteor_scale_max");
 	meteor_data.distortion = GameModule::resources->GetFloatParameter("meteor_max_distortion");
-	
-	
+
+
 
 	broad_phase = std::make_unique<btDbvtBroadphase>();
 	collision_config = std::make_unique<btDefaultCollisionConfiguration>();
 	dispatcher = std::make_unique<btCollisionDispatcher>(collision_config.get());
 	solver = std::make_unique<btSequentialImpulseConstraintSolver>();
 
-	dynamicsWorld = std::make_shared<btDiscreteDynamicsWorld>(dispatcher.get(), broad_phase.get(), 
+	dynamicsWorld = std::make_shared<btDiscreteDynamicsWorld>(dispatcher.get(), broad_phase.get(),
 		solver.get(), collision_config.get());
 
 	dynamicsWorld->setGravity(btVector3(0, 0, 0));
@@ -77,7 +77,7 @@ void GameState::Update(std::chrono::milliseconds delta_time)
 
 
 	static std::chrono::high_resolution_clock::time_point restart_timer = std::chrono::high_resolution_clock::now();
-	if (GameModule::input->GetKeyState(SDL_SCANCODE_R) 
+	if (GameModule::input->GetKeyState(SDL_SCANCODE_R)
 		&& (std::chrono::high_resolution_clock::now() > restart_timer))
 	{
 		RestartGameplay();
@@ -87,7 +87,7 @@ void GameState::Update(std::chrono::milliseconds delta_time)
 }
 
 void GameState::SpawnMeteor()
-{	
+{
 	std::uniform_real_distribution<> random_distortion(1.0f, meteor_data.distortion);
 	std::uniform_real_distribution<> random_scale(meteor_data.scale_min, meteor_data.scale_max);
 	float size = random_scale(GameModule::random_gen);
@@ -95,7 +95,7 @@ void GameState::SpawnMeteor()
 	glm::vec3 scale(size, size, size * random_distortion(GameModule::random_gen));
 
 	std::uniform_real_distribution<> rand_pos_z(-meteor_data.pos_z, meteor_data.pos_z);
-	
+
 	//must lower meteor position by half of size
 	glm::vec3 pos(meteor_data.pos_x, -size / 2.0f, rand_pos_z(GameModule::random_gen));
 

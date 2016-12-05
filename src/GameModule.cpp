@@ -12,6 +12,6 @@ void GameModule::Init()
 	resources = std::make_shared<ResourceManager>();
 
 	srand(time(NULL));
-	
+
 	random_gen.seed(rand());
 }
